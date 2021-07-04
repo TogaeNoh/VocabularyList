@@ -37,6 +37,7 @@ def main():
     df_new_DB['Count'] = today - df_new_DB['Date']  #numpy.dtype[timedelta64]
     df_new_DB['Count'] = df_new_DB['Count'].dt.days + 1   #changing data type numpy.dtype[timedelta64]->numpy.dtype[int64]
     df_new_DB['Count'] = df_new_DB['Count'].apply(np.ceil)
+
     df_t_wordset = df_new_DB[df_new_DB['Count'].isin([1,2,3,4,7,15,30])]
 
     # Export todays' word set
@@ -48,7 +49,7 @@ def filename():
     today = datetime.datetime.today()
     y_day = today - datetime.timedelta(days=1)
 
-    new_today= os.path.join(filefolder, 'C1223.txt')
+    new_today= os.path.join(filefolder, 'les06.txt')
     old_DB=os.path.join(filefolder, f'{y_day:%Y%m%d}_Dutch_DB.csv')
     new_DB=os.path.join(filefolder, f'{today:%Y%m%d}_Dutch_DB.csv')
     t_wordset=os.path.join(filefolder, f'{today:%Y%m%d}_Dutch_set.csv')
@@ -66,26 +67,31 @@ def Ext_new_df(filename, today):
             for line in f:
                 line = line.strip()
                 line = line.replace(",", ".")
-                x = re.search(r"[가-힣]+", line)
+                x = re.search(r"(.[가-힣]+|[가-힣]+)", line)
                 d_words = line[:(x.start() - 1)].strip()
                 k_words = line[x.start():].strip()
                 d_list.append(d_words)
                 k_list.append(k_words)
-
             word_dict = {'Dutch':d_list, 'Korean' : k_list}
     elif filename.endswith('.xlsx'):
         word_dict = pd.read_excel(filename)
 
     word_frame = DataFrame(word_dict)
     word_frame['Date'] = today #Column: Dutch, Korean, Date
-
+    print(word_frame)
     return word_frame
 
 def Read_old_df(filename):
-    if filename.endswith('.xlsx'):
-        df = pd.read_excel(filename)
-    elif filename.endswith('.csv'):
-        df = pd.read_csv(filename, engine='python', encoding = 'utf_8')
+    if os.path.isfile(filename):
+        if filename.endswith('.xlsx'):
+            df = pd.read_excel(filename)
+        elif filename.endswith('.csv'):
+            df = pd.read_csv(filename,
+                             engine='python',
+                             encoding = 'utf_8')
+    else:
+        df = pd.DataFrame(columns=['Dutch','Korean','Date'])
+
     return df
 
 if __name__ == '__main__':
