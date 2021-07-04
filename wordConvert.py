@@ -78,7 +78,6 @@ def Ext_new_df(filename, today):
 
     word_frame = DataFrame(word_dict)
     word_frame['Date'] = today #Column: Dutch, Korean, Date
-    print(word_frame)
     return word_frame
 
 def Read_old_df(filename):
