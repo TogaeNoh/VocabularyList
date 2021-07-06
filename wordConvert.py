@@ -9,9 +9,9 @@ def main():
     # Today's date
     today = datetime.datetime.today().strftime('%Y-%m-%d')
 
-    filename_new_today = filename()[0] #Words that will be appended today
+    filename_new_today = filename()[0]  #Words that will be appended today
     filename_old_DB = filename()[1]     #Words DB that created yesterday
-    filename_new_DB = filename()[2]     #Words DB that will be creaded today (old_DB + new_today)
+    filename_new_DB = filename()[2]     #Words DB that will be created today (old_DB + today's new_words)
     filename_t_wordset = filename()[3]  #words set for today
 
     # Display rows, columns and width in full
@@ -27,7 +27,6 @@ def main():
 
     # Join new words with old database
     df_new_DB = pd.concat([df_new_today, df_old_DB])
-    df_new_DB.to_csv(filename_new_DB, index = False, sep=',', encoding='utf-8-sig')
 
     # Create a column for counting how many days passed from day 1
     # Create Today with date formaat
@@ -41,6 +40,7 @@ def main():
     df_t_wordset = df_new_DB[df_new_DB['Count'].isin([1,2,3,4,7,15,30])]
 
     # Export todays' word set
+    df_new_DB.to_csv(filename_new_DB, index = False, sep=',', encoding='utf-8-sig')
     df_t_wordset.to_csv(filename_t_wordset, index = False,  sep=',', encoding='utf-8-sig')
 
 
@@ -49,7 +49,7 @@ def filename():
     today = datetime.datetime.today()
     y_day = today - datetime.timedelta(days=1)
 
-    new_today= os.path.join(filefolder, 'les06.txt')
+    new_today= os.path.join(filefolder, '210706.txt')
     old_DB=os.path.join(filefolder, f'{y_day:%Y%m%d}_Dutch_DB.csv')
     new_DB=os.path.join(filefolder, f'{today:%Y%m%d}_Dutch_DB.csv')
     t_wordset=os.path.join(filefolder, f'{today:%Y%m%d}_Dutch_set.csv')
@@ -67,7 +67,7 @@ def Ext_new_df(filename, today):
             for line in f:
                 line = line.strip()
                 line = line.replace(",", ".")
-                x = re.search(r"(.[가-힣]+|[가-힣]+)", line)
+                x = re.search(r"(\([가-힣]+|[가-힣]+|\;)", line)
                 d_words = line[:(x.start() - 1)].strip()
                 k_words = line[x.start():].strip()
                 d_list.append(d_words)
