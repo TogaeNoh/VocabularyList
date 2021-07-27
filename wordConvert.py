@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-import re
+import regex
 from pandas import DataFrame #Series,
 import datetime
 import numpy as np
@@ -49,7 +49,7 @@ def filename():
     today = datetime.datetime.today()
     y_day = today - datetime.timedelta(days=1)
 
-    new_today= os.path.join(filefolder, '210706.txt')
+    new_today= os.path.join(filefolder, 'test.txt')
     old_DB=os.path.join(filefolder, f'{y_day:%Y%m%d}_Dutch_DB.csv')
     new_DB=os.path.join(filefolder, f'{today:%Y%m%d}_Dutch_DB.csv')
     t_wordset=os.path.join(filefolder, f'{today:%Y%m%d}_Dutch_set.csv')
@@ -67,9 +67,16 @@ def Ext_new_df(filename, today):
             for line in f:
                 line = line.strip()
                 line = line.replace(",", ".")
-                x = re.search(r"(\([가-힣]+|[가-힣]+|\;)", line)
-                d_words = line[:(x.start() - 1)].strip()
-                k_words = line[x.start():].strip()
+                if str(';') in line:
+                    x = line.find(';')
+                    k_words = line[x+1:].strip()
+                    d_words = line[:(x-1)].strip()
+                elif line:
+                    x = regex.search(r'\p{IsHangul}', line)
+                    k_words = line[x.start():].strip()
+                    d_words = line[:(x.start() - 1)].strip()
+                else:
+                    break
                 d_list.append(d_words)
                 k_list.append(k_words)
             word_dict = {'Dutch':d_list, 'Korean' : k_list}
