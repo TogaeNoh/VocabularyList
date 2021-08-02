@@ -1,5 +1,5 @@
 ## Vocabulary List Generator
-According to Forgetting Curve by Ebbinghous, what you learned disappears quickly as time goes by.
+According to forgetting curve by Ebbinghous, what you learned disappears quickly as time goes by.
 In order to avoid forgeting, we have to do repeatitions.
 As stated by his research, there is an effective intervals between reviewing, so that our short term memories turn into long-term memories.
 This program generates vocabulary lists with new words to learn today and old words that are learned before certain days ago and need to be reviewed.
