@@ -13,13 +13,20 @@ I wanted to apply this result to my vocabulary list generator by combining new v
 New words are added by user. Those words are stacked up in the database. The program adds column of the date when the words are added. Based on the date information and a repetition space, the program extracts vocabulary list for today. 
 
 ## How to Use
-1. Create a folder you want to work with vocabulary. In this folder, you will save new word list. Word database and word list for today will be generated and saved in this folder. Once you made a folder, change the folder path in the program. 
-2. Create a new word list in .txt file or .xlsx file. 
-3. 
-If you use .txt file, you can use ; as a seperator.
-2. Change the file name in the filename() function.
-3. Change the directory. 
-4. Run the Program.
+1. Create a folder you want to work with vocabulary. In this folder, you will save a new word list. Word database and word list generated for today is saved in this folder.
+2. Create a new word list and save it in .txt file or .xlsx file. 
+_txt file_
+Words you learn and meaning in your language is seperated by ;. This text file is converted into DataFrame with two columns.
+If you use different language set 
+
+
+In my case, I fill meaning of words in Korean. 
+4. Once you made a folder and word file, change the path in the program. 
+  There is a function called [filename]. Change the path after 'filefolder' and file name in new_today. File name is written as 'NewDutchWords.xlsx' and supposed to be updated as yours.
+4. Run the Program!
+
+
+
 
 * This program is designed to use everyday.
 * Once you create a Database file, the program will use the DB file the next day.
